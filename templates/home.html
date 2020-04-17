@@ -1,0 +1,123 @@
+<html>
+    <head>
+        <title>Covid-19 Cases</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    </head>
+    <body>
+        <style>table{border-radius: 8px;}</style>
+        <div class="container">
+            <table class="table table-striped table-dark">
+                <thead class="table-dark">
+                    <tr class="head"></tr>
+                </thead>
+                <tbody>
+                    <tr class="content"></tr>
+                </tbody>
+              </table>
+
+              <canvas id="myChart" width="400" height="300"></canvas>
+        </div>
+
+        
+        
+    </body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="../static/js/chartjs/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+
+<script>
+    function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+    var data2=[];
+    $(document).ready(
+    function()
+    {
+        var counter = 0;
+       
+        $.getJSON("/data", function(result)
+        {
+          $.each(result.results[0], function(i, field)
+          {
+                for (let index = 0; index < i.length; index++) 
+                {
+                    i = i.replace('_', ' ');
+                }
+                
+               
+                if (i != "source")
+                {
+                    counter++
+                    $(".head").append("<th scope='col'>" + i + "</th>");
+                    $(".content").append("<td>" + numberWithCommas(field) + "</td>");
+                }
+          });
+          console.log(data2);
+        }); 
+    }); 
+         /* for (let index = 0; index < result.results[0].length; index++) {
+                
+                data2.push(results[0][index]);
+              console.log(results[index]);
+          } */
+    /*
+    
+    */
+    
+    
+     
+    
+   
+
+var ctx = $('#myChart');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: [ {% for key in lables %} "{{key}}", {% endfor %} ],
+        datasets: [{
+            label: '# of Cases',
+            data: [{% for val in values %}{{val}},{% endfor%}],
+            backgroundColor: [
+                'rgba(255, 206, 86, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(193, 56, 97, 1)',
+                'rgba(153,102, 255,1)',
+                'rgba(194, 0, 0, 1)',
+                'rgba(255, 214, 138, 1)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153,102, 255,1)',
+                'rgba(255,159, 64, 1)'
+            ],
+            borderWidth: 1,
+        }],
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    enabled: true,
+                    min: 100,
+                    beginAtZero: false,
+                    lineHeight: 2
+                }
+            }]
+        }
+    }
+  
+});
+
+
+</script>
+
+
+
+
+
