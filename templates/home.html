@@ -1,22 +1,105 @@
 <html>
     <head>
         <title>Covid-19 Cases</title>
+        <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     </head>
     <body>
-        <style>table{border-radius: 8px;}</style>
-        <div class="container">
-            <table class="table table-striped table-dark">
-                <thead class="table-dark">
-                    <tr class="head"></tr>
-                </thead>
-                <tbody>
-                    <tr class="content"></tr>
-                </tbody>
-              </table>
+            <style>
+                html,body{
+                    width:100%;
+                    height: 100%;
+                    background: #f0f0f5;
+                    font:400 14px Roboto, sans-serif;
+                }
+                tr
+                {
+                    text-align: center;
+                }
+                .head
+                {
+                    font-weight: bold;
+                }
+                table
+                {
+                    width:100%;
+                    opacity: 0.8;
+                    position: fixed;
+                    top:0;
+                    
+                }
+                .row
+                {
+                    margin-top: 150px;
+                    border: 0px;
+                }
+                .card
+                {
+                    border:0px;
+                    border-radius: 12px;
+                }
+                .ex
+                {
+                    border: 0.1px solid #dcdce6;
+                    border-radius: 8px;
+                    padding: 50px 50px 50px 50px;
+                    box-shadow: 0 0 100px rgba(0, 0, 0, 0.1);
+                    
+                }
 
-              <canvas id="myChart" width="400" height="300"></canvas>
+            </style>
+            
+            
+        <div class="container-max-width">
+            <div class="row">
+                
+                <div class="col">
+                    
+                  </div>
+
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="ex">
+                            <canvas id="myChart" width="1000" height="800"></canvas>
+                        </div> 
+                            
+                    </div>
+                </div>    
+                
+                <div class="col">
+                    
+                </div>
+
+            </div>
         </div>
+        
+
+            
+            
+                
+                    <div class="card"> 
+                        <div class="table-responsive-md">
+                            <table class="table table-borderless table-dark">
+                                <thead class="table-dark">
+                                    <tr class="head">{% for keys in lables %} <th scope='col' class="pl-1">{{keys}}</th> {% endfor %}</tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="content">
+                                        {% for val in values %} <td class="pl-2">{{"{:,}".format(val)}}</td> {% endfor %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                
+            
+    
+           
+               
+    
+        
+            
+     
 
         
         
@@ -30,35 +113,16 @@
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
     var data2=[];
-    $(document).ready(
-    function()
+   $(document).ready(
+     function()
     {
-        var counter = 0;
-       
-        $.getJSON("/data", function(result)
-        {
-          $.each(result.results[0], function(i, field)
-          {
-                for (let index = 0; index < i.length; index++) 
-                {
-                    i = i.replace('_', ' ');
-                }
-                if (i != "source")
-                {
-                    counter++
-                    $(".head").append("<th scope='col'>" + i + "</th>");
-                    $(".content").append("<td>" + numberWithCommas(field) + "</td>");
-                }
-          });
-        }); 
-    });   
 var ctx = $('#myChart');
 var myChart = new Chart(ctx, {
     type: 'bar',
     data: {
         labels: [ {% for key in lables %} "{{key}}", {% endfor %} ],
         datasets: [{
-            label: '# of Cases',
+            label: 'Total Number of Cases',
             data: [{% for val in values %}{{val}},{% endfor%}],
             backgroundColor: [
                 'rgba(255, 206, 86, 1)',
@@ -96,6 +160,7 @@ var myChart = new Chart(ctx, {
   
 });
 
+}); 
 
 </script>
 
