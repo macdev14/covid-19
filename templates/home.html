@@ -43,8 +43,6 @@
                 {
                     i = i.replace('_', ' ');
                 }
-                
-               
                 if (i != "source")
                 {
                     counter++
@@ -52,23 +50,8 @@
                     $(".content").append("<td>" + numberWithCommas(field) + "</td>");
                 }
           });
-          console.log(data2);
         }); 
-    }); 
-         /* for (let index = 0; index < result.results[0].length; index++) {
-                
-                data2.push(results[0][index]);
-              console.log(results[index]);
-          } */
-    /*
-    
-    */
-    
-    
-     
-    
-   
-
+    });   
 var ctx = $('#myChart');
 var myChart = new Chart(ctx, {
     type: 'bar',
